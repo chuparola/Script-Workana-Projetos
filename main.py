@@ -72,7 +72,7 @@ class ExtratorProjetosWorkana:
 
                 self.envia_projeto_telegram(texto)
 
-            time.sleep(1800)
+            time.sleep(60)
 
 extrator = ExtratorProjetosWorkana('https://www.workana.com/pt/jobs?language=pt&skills=python')
 extrator.extrai_projetos()
