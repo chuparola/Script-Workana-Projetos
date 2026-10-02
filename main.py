@@ -8,6 +8,7 @@ import requests
 class ExtratorProjetosWorkana:
     def __init__(self, link: str):
         self.link = link
+        self.projetos_enviados = set()
 
         self.TOKEN = '8792434876:AAEe7rbFWH_-2XfSAenZzHrtwkHlXV1A0I8'
         self.CHAT_ID = '8061858940'
@@ -63,16 +64,15 @@ class ExtratorProjetosWorkana:
                 EC.presence_of_element_located((By.XPATH, '//div[@class="project-item js-project"]/div/h2/span/a'))
             ).get_attribute('href')
 
-            print(titulo_projeto_antigo, titulo_projeto_atual, '\n')
+            print(titulo_projeto_atual)
 
-            if titulo_projeto_antigo != titulo_projeto_atual:
-                titulo_projeto_antigo = titulo_projeto_atual
-
+            if titulo_projeto_atual not in self.projetos_enviados:
+                self.projetos_enviados.add(titulo_projeto_atual)
                 texto = f'{titulo_projeto_atual}\n\n{descricao_projeto}\n\n{data_projeto}\n\n{valor_projeto}\n\n{link_projeto}'
 
                 self.envia_projeto_telegram(texto)
 
-            time.sleep(60)
+            time.sleep(620)
             self.navegador.refresh()
 
 extrator = ExtratorProjetosWorkana('https://www.workana.com/pt/jobs?language=pt&skills=python')
